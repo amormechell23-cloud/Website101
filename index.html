@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Nook — Mech-a-Difference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#33301f;
+    --paper:#f2ecd8;
+    --paper-2:#e8e0c6;
+    --pine:#354a3a;
+    --pine-dark:#233029;
+    --clay:#c07a4e;
+    --clay-dark:#9c5c37;
+    --gold:#c99a3a;
+    --line: rgba(51,48,31,0.16);
+    --radius: 3px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Karla', sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--pine-dark);
+    margin:0;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  @media (max-width:640px){.wrap{padding:0 20px;}}
+
+  /* Skip link */
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--pine-dark);color:#fff;padding:10px 16px;z-index:200;}
+  .skip-link:focus{left:12px;top:12px;}
+
+  /* Header / nav */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;max-width:1080px;margin:0 auto;
+    gap:24px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Fraunces',serif;font-size:1.15rem;color:var(--pine-dark);
+    text-decoration:none;letter-spacing:0.01em;
+  }
+  .brand svg{width:26px;height:26px;flex:none;}
+  nav.links{display:flex;gap:26px;flex-wrap:wrap;}
+  nav.links a{
+    text-decoration:none;font-size:0.95rem;color:var(--ink);
+    padding:4px 2px;border-bottom:1px solid transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav.links a:hover, nav.links a:focus-visible{border-color:var(--clay);color:var(--clay-dark);}
+  .nav-toggle{display:none;}
+  @media (max-width:820px){
+    nav.links{display:none;}
+  }
+
+  /* Hero */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:88px 0 96px;
+    background:
+      radial-gradient(circle at 88% 8%, rgba(201,154,58,0.18), transparent 42%),
+      var(--paper);
+  }
+  .hero .wrap{display:grid;grid-template-columns:1.15fr 0.85fr;gap:48px;align-items:center;}
+  @media (max-width:800px){.hero .wrap{grid-template-columns:1fr;}}
+  .eyebrow-leaf{display:flex;align-items:center;gap:10px;color:var(--pine);font-size:0.98rem;margin-bottom:18px;}
+  .eyebrow-leaf svg{width:20px;height:20px;}
+  .hero h1{font-size:clamp(2.5rem, 5vw, 3.6rem);line-height:1.08;letter-spacing:-0.01em;}
+  .hero p.lede{
+    margin-top:22px;font-size:1.18rem;color:var(--ink);max-width:46ch;
+    font-family:'Fraunces',serif;font-weight:400;font-style:italic;color:#4a4630;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:13px 26px;border-radius:var(--radius);
+    text-decoration:none;font-weight:600;font-size:0.95rem;
+    border:1px solid transparent;transition:transform .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--pine-dark);color:var(--paper);}
+  .btn-primary:hover{background:var(--pine);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+
+  .hero-art{position:relative;}
+  .steam-cup{width:100%;height:auto;}
+
+  /* Section framing */
+  section{padding:78px 0;border-top:1px solid var(--line);}
+  .section-head{max-width:60ch;margin-bottom:44px;}
+  .section-head .kicker{
+    color:var(--clay-dark);font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem;margin-bottom:6px;display:block;
+  }
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.3rem);}
+  .section-head p{margin-top:14px;color:#514c37;font-size:1.03rem;}
+
+  /* Meet Mechell */
+  #meet .wrap{display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;align-items:start;}
+  @media (max-width:760px){#meet .wrap{grid-template-columns:1fr;}}
+  .portrait-frame{
+    aspect-ratio:4/5;border-radius:4px;
+    background:
+      linear-gradient(160deg, var(--paper-2), var(--paper));
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--pine);
+  }
+  .portrait-frame svg{width:58%;}
+  .quote{
+    font-family:'Fraunces',serif;font-style:italic;font-size:1.3rem;color:var(--pine-dark);
+    border-left:3px solid var(--clay);padding-left:20px;margin:26px 0;
+  }
+
+  /* Our School */
+  #school{background:var(--pine-dark);color:#eee6cc;}
+  #school .section-head h2{color:#f5eed8;}
+  #school .section-head .kicker{color:var(--gold);}
+  #school .section-head p{color:#cfc7a6;}
+  .fact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.14);}
+  @media (max-width:700px){.fact-row{grid-template-columns:1fr;}}
+  .fact{background:var(--pine-dark);padding:28px 26px;}
+  .fact .num{font-family:'Fraunces',serif;font-size:2.1rem;color:var(--gold);}
+  .fact p{margin:8px 0 0;color:#cfc7a6;font-size:0.95rem;}
+
+  /* Bilingual Initiative */
+  .track-list{display:flex;flex-direction:column;}
+  .track{
+    display:grid;grid-template-columns:120px 1fr;gap:28px;
+    padding:26px 0;border-top:1px solid var(--line);
+  }
+  .track:first-child{border-top:none;}
+  .track .tag{
+    font-family:'Fraunces',serif;font-size:0.95rem;color:var(--clay-dark);padding-top:4px;
+  }
+  .track h3{font-size:1.2rem;margin-bottom:6px;}
+  .track p{margin:0;color:#514c37;}
+  .track .sub-links{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;}
+  .track .sub-links a{font-size:0.9rem;color:var(--pine);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px;}
+  @media (max-width:560px){.track{grid-template-columns:1fr;gap:6px;}}
+
+  /* Explore English + Camps: two-column feature */
+  .feature-pair{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+  @media (max-width:700px){.feature-pair{grid-template-columns:1fr;}}
+  .feature-card{
+    background:var(--paper-2);border:1px solid var(--line);padding:32px;border-radius:4px;
+  }
+  .feature-card h3{font-size:1.25rem;margin-bottom:10px;}
+  .feature-card p{color:#514c37;margin:0 0 18px;}
+  .feature-card a.textlink{font-weight:600;color:var(--clay-dark);text-decoration:none;border-bottom:1px solid var(--clay-dark);}
+
+  /* YouTube */
+  #videos{background:var(--paper-2);}
+  .video-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media (max-width:760px){.video-row{grid-template-columns:1fr 1fr;}}
+  @media (max-width:520px){.video-row{grid-template-columns:1fr;}}
+  .video-card{background:var(--paper);border:1px solid var(--line);}
+  .video-thumb{
+    aspect-ratio:16/10;background:var(--pine-dark);display:flex;align-items:center;justify-content:center;
+  }
+  .video-thumb svg{width:38px;height:38px;color:var(--gold);}
+  .video-card .cap{padding:14px 16px;font-size:0.95rem;}
+
+  /* Camps CTA banner */
+  .camp-banner{
+    background:var(--clay);color:#fff8ec;padding:52px 40px;border-radius:4px;
+    display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+  }
+  .camp-banner h2{color:#fff8ec;font-size:1.8rem;}
+  .camp-banner p{color:#fbe7d3;margin-top:10px;max-width:44ch;}
+  .camp-banner .btn-primary{background:var(--pine-dark);}
+
+  /* Partner strip */
+  .partner{
+    display:flex;align-items:center;gap:16px;color:#514c37;font-size:0.92rem;flex-wrap:wrap;
+  }
+  .partner a{color:var(--pine);text-decoration:underline;text-underline-offset:3px;}
+
+  footer{
+    background:var(--pine-dark);color:#cfc7a6;padding:48px 0 30px;
+  }
+  footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  footer .brand{color:#f5eed8;}
+  footer .foot-links{display:flex;gap:22px;flex-wrap:wrap;}
+  footer .foot-links a{text-decoration:none;font-size:0.92rem;}
+  footer .foot-links a:hover{color:#fff;}
+  .fine{margin-top:28px;font-size:0.8rem;color:#93927a;border-top:1px solid rgba(255,255,255,0.1);padding-top:18px;}
+
+  ::selection{background:var(--gold);color:var(--pine-dark);}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--clay-dark);outline-offset:2px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <div class="nav-row">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4-3 7-6.5 7-10.5A7 7 0 0 0 5 10.5C5 14.5 8 18 12 21Z"/><path d="M12 21V9"/><path d="M12 12c-2-1.5-3-3-3-5"/></svg>
+      English Nook
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#meet">Meet Mechell</a>
+      <a href="#school">Our School</a>
+      <a href="#bilingual">Bilingual Initiative</a>
+      <a href="#explore">Explore English</a>
+      <a href="#videos">Youtube Videos</a>
+      <a href="#camps">English Camps</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HOME / HERO -->
+  <section id="top" class="hero" style="border-top:none;">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow-leaf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4-3 7-6.5 7-10.5A7 7 0 0 0 5 10.5C5 14.5 8 18 12 21Z"/><path d="M12 21V9"/></svg>
+          Glad you are here
+        </span>
+        <h1>English&nbsp;Nook</h1>
+        <p class="lede">Warm lessons, gentle guidance, and meaningful progress — one sip at a time.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#explore">Explore English</a>
+          <a class="btn btn-ghost" href="#meet">Meet Mechell</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg class="steam-cup" viewBox="0 0 320 300" fill="none">
+          <path d="M120 40c6 14-6 20-2 34" stroke="#c99a3a" stroke-width="3" stroke-linecap="round"/>
+          <path d="M160 30c6 14-6 20-2 34" stroke="#c99a3a" stroke-width="3" stroke-linecap="round"/>
+          <path d="M200 40c6 14-6 20-2 34" stroke="#c99a3a" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="160" cy="230" rx="90" ry="14" fill="#233029" opacity="0.08"/>
+          <path d="M80 110h160l-14 92a26 26 0 0 1-26 22H120a26 26 0 0 1-26-22l-14-92Z" fill="#354a3a"/>
+          <path d="M80 110h160" stroke="#f2ecd8" stroke-width="4"/>
+          <path d="M240 122c26-4 40 12 34 32-6 18-28 24-42 16" stroke="#354a3a" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M96 120c8 30 4 56 24 66" stroke="#c07a4e" stroke-width="3" opacity="0.5" fill="none"/>
+          <circle cx="255" cy="70" r="16" fill="none" stroke="#c99a3a" stroke-width="2"/>
+          <path d="M247 70c2-5 12-5 16 0" stroke="#c99a3a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEET MECHELL -->
+  <section id="meet">
+    <div class="wrap">
+      <div class="portrait-frame" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="50" cy="38" r="18"/>
+          <path d="M20 92c4-22 20-32 30-32s26 10 30 32"/>
+          <path d="M35 34c6 6 24 6 30 0"/>
+        </svg>
+      </div>
+      <div>
+        <span class="kicker">Meet Mechell</span>
+        <h2>The teacher behind the nook</h2>
+        <p class="quote">"Teaching is the most meaningful profession out there."</p>
+        <p>Mechell brings a calm, encouraging style to every classroom — the kind of teaching that treats English as something to be enjoyed slowly, not rushed through. Replace this section with Mechell's own introduction: background, teaching philosophy, certifications, and what students can expect walking into her classroom.</p>
+        <p style="margin-top:14px;"><em>Placeholder — swap in the real bio and photo from the "Meet Mechell" page.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR SCHOOL -->
+  <section id="school">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Our School</span>
+        <h2>Where the nook lives</h2>
+        <p>A short introduction to the school — its community, its bilingual mission, and why English learning here feels different. Replace with real details from the "Our School" page: location, grade levels, and school culture.</p>
+      </div>
+      <div class="fact-row">
+        <div class="fact"><div class="num">2021</div><p>Bilingual initiative launched</p></div>
+        <div class="fact"><div class="num">彰化</div><p>Changhua County, Taiwan</p></div>
+        <div class="fact"><div class="num">K–6</div><p>Grade levels served</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BILINGUAL INITIATIVE -->
+  <section id="bilingual">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Bilingual Initiative</span>
+        <h2>English woven into everyday school life</h2>
+        <p>Four ways English shows up beyond the textbook — in the classroom, in reading, in practice, and each morning at assembly.</p>
+      </div>
+      <div class="track-list">
+        <div class="track">
+          <span class="tag">Classroom</span>
+          <div>
+            <h3>Classroom English</h3>
+            <p>Everyday classroom phrases and routines students use in English, plus resources teachers can borrow.</p>
+            <div class="sub-links"><a href="#">Free Resources ↗</a></div>
+          </div>
+        </div>
+        <div class="track">
+          <span class="tag">Reading</span>
+          <div>
+            <h3>English Reading Corner</h3>
+            <p>A cozy shelf of leveled books and reading activities for building comprehension at a comfortable pace.</p>
+          </div>
+        </div>
+        <div class="track">
+          <span class="tag">Practice</span>
+          <div>
+            <h3>English Practice Corner</h3>
+            <p>Where lessons turn into action — student projects, speaking practice, and a running podcast.</p>
+            <div class="sub-links">
+              <a href="#">Learning in Action ↗</a>
+              <a href="#">Reading Podcast ↗</a>
+            </div>
+          </div>
+        </div>
+        <div class="track">
+          <span class="tag">Assembly</span>
+          <div>
+            <h3>English Morning Assembly</h3>
+            <p>A gentle daily dose of English to open the school day — songs, greetings, and short exchanges.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE ENGLISH -->
+  <section id="explore">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Explore English</span>
+        <h2>Two ways to keep learning</h2>
+        <p>Curated activities and materials for students and parents to explore outside class time.</p>
+      </div>
+      <div class="feature-pair">
+        <div class="feature-card">
+          <h3>Explore English</h3>
+          <p>Games, worksheets, and short activities for independent practice. Replace with real content from the "Explore English" page.</p>
+          <a class="textlink" href="#">See the resources</a>
+        </div>
+        <div class="feature-card">
+          <h3>English Project Gallery</h3>
+          <p>Student work and projects worth celebrating — a rotating showcase of what's been made in class.</p>
+          <a class="textlink" href="#">View the gallery</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUTUBE VIDEOS -->
+  <section id="videos">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Youtube Videos</span>
+        <h2>Watch and learn</h2>
+        <p>Short video lessons and seasonal specials, including a dedicated Holidays collection.</p>
+      </div>
+      <div class="video-row">
+        <div class="video-card">
+          <div class="video-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="cap">Lesson clip — replace with real video title</div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="cap">Holidays special — replace with real video title</div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="cap">Classroom moment — replace with real video title</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGLISH CAMPS -->
+  <section id="camps">
+    <div class="wrap">
+      <div class="camp-banner">
+        <div>
+          <h2>English Camps</h2>
+          <p>Immersive, seasonal camps where students practice English through games, crafts, and conversation — replace with real dates and sign-up details.</p>
+        </div>
+        <a class="btn btn-primary" href="#">See upcoming camps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNER STRIP -->
+  <section style="padding:44px 0;">
+    <div class="wrap partner">
+      <span>合作單位 ｜ In partnership with</span>
+      <a href="https://changhua-bilingual.org/" target="_blank" rel="noopener">彰化縣國際教育暨英語教學資源中心 · Changhua International Education and English Teaching Resource Center</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#top" style="margin-bottom:10px;display:inline-flex;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="22" height="22"><path d="M12 21c4-3 7-6.5 7-10.5A7 7 0 0 0 5 10.5C5 14.5 8 18 12 21Z"/><path d="M12 21V9"/></svg>
+        English Nook
+      </a>
+      <p style="max-width:32ch;color:#93927a;">Warm lessons, gentle guidance, and meaningful progress — one sip at a time.</p>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#meet">Meet Mechell</a>
+      <a href="#school">Our School</a>
+      <a href="#bilingual">Bilingual Initiative</a>
+      <a href="#explore">Explore English</a>
+      <a href="#videos">Youtube Videos</a>
+      <a href="#camps">English Camps</a>
+    </nav>
+  </div>
+  <div class="wrap fine">Mech-a-Difference · English Nook</div>
+</footer>
+
+</body>
+</html>
